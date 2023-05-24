@@ -1,43 +1,44 @@
-import { ContactText, Container, TitileContact } from './App.styled';
-import { ContactForm } from './ContactForm/ContactForm';
-import { ContactList } from './ContactsList/ContactList';
-import { Filter } from './Filter/Filter';
-import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router';
+import Layout from './Layout/Layout';
+import { Home } from 'pages/Home';
+import Register from 'pages/Register';
+import { RestrictedRoute } from './RestrictedRoute';
+import { Login } from 'pages/Login';
+import ContactsBook from 'pages/ContactsBook';
+import { PrivateRoute } from './PrivateRoute';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { IsLoading, filteredContacts } from 'Redux/selectors';
-import { fetchContacts } from 'Redux/operations';
-import { BallTriangle } from 'react-loader-spinner';
+import { refreshUser } from 'Redux/auth/operations';
+
 export const App = () => {
-  const filteredContactsList = useSelector(filteredContacts);
   const dispatch = useDispatch();
-  const loader = useSelector(IsLoading);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
   return (
-    <Container>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <TitileContact>Contacts</TitileContact>
-      <Filter />
-      {loader ? (
-        <BallTriangle
-          height={100}
-          width={100}
-          radius={5}
-          color="#4fa94d"
-          ariaLabel="ball-triangle-loading"
-          wrapperClass={{}}
-          wrapperStyle=""
-          visible={true}
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route
+          path="register"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<Register />} />
+          }
         />
-      ) : (
-        <ContactList />
-      )}
-      {!filteredContactsList.length && !loader && (
-        <ContactText>No contacts</ContactText>
-      )}
-    </Container>
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<Login />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsBook />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };

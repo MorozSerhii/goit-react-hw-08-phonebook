@@ -4,7 +4,7 @@ import { fetchContacts, addContact, deleteContact } from './operations';
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
-    items: [],
+    items: [{ id: 1, name: 'wqqw', number: '09300409' }],
     isLoading: false,
     error: null,
   },

@@ -45,3 +45,23 @@ p {
 a {
   text-decoration: none;
 }
+
+
+
+.nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 2px solid darkgray;
+  padding: 15px 0;
+}
+
+.user_menu{
+  display: flex;
+
+  
+}
+.nav_container{
+  display: flex;
+  gap:20px;
+}
