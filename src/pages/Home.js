@@ -1,5 +1,7 @@
-import React from 'react';
-
 export const Home = () => {
-  return <div></div>;
+  return (
+    <div>
+      Пройдіть реєстрацію або авторизуйтесь для отримання повного функціоналу
+    </div>
+  );
 };
